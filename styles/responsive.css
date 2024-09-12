@@ -1,0 +1,26 @@
+/* Responsive Styles */
+/* Mobile styles */
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.2rem; /* Adjust title size for mobile screens */
+  }
+  #logo {
+    width: 150px; /* Adjust logo size for mobile screens */
+  }
+  button {
+    font-size: 0.9rem; /* Adjust button font size for mobile screens */
+  }
+}
+/* Tablet styles */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem; /* Adjust title size for tablet screens */
+  }
+  #logo {
+    width: 200px; /* Adjust logo size for tablet screens */
+  }
+}
+/* Desktop styles */
+@media (min-width: 769px) {
+  /* Additional desktop-specific styles */
+}/*# sourceMappingURL=responsive.css.map */
