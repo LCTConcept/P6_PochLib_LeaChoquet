@@ -36,7 +36,7 @@ body {
   margin-bottom: 15px;
 }
 
-.button, #cancel-button {
+.button, .btn-search, #cancel-button {
   background-color: #42b1a6; /* Main color for the button */
   color: white;
   padding: 10px 20px;
@@ -48,7 +48,7 @@ body {
   margin-top: 10px;
 }
 
-.button:hover, #cancel-button:hover {
+.button:hover, .btn-search:hover, #cancel-button:hover {
   background-color: #348c83; /* Darken color on hover */
 }
 

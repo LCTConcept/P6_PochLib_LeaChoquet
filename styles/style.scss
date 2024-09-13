@@ -116,6 +116,10 @@ body{
   }
 }
 
+.btn-search {
+  @extend .button;
+}
+
 
 .input-title {
   display: block;
@@ -130,7 +134,6 @@ body{
   margin-bottom: 10px;
   box-sizing: border-box; /* Ensure padding is included in the width */
 }
-
 
 
 
