@@ -80,6 +80,10 @@ window.onload = function() {
   });
 };
 
+function generateBookId(title, author) {
+  return `${title}-${author}`.replace(/\s+/g, '-').toLowerCase();
+}
+
 function performSearch(title, author) {
   const searchContainer = document.getElementById('search-container');
 
@@ -95,20 +99,26 @@ function performSearch(title, author) {
       } else {
         data.items.forEach(item => {
           const book = item.volumeInfo;
+          const bookId = generateBookId(book.title, book.authors ? book.authors[0] : 'Auteur inconnu');
           const bookDiv = document.createElement('div');
           bookDiv.classList.add('book-item');
 
-          const title = document.createElement('h3');
-          title.textContent = book.title;
-          bookDiv.appendChild(title);
+          const titleElem = document.createElement('h3');
+          titleElem.textContent = book.title;
+          titleElem.textContent = `Titre : ${book.title || 'Titre non disponible'}`;
+          bookDiv.appendChild(titleElem);
 
-          const author = document.createElement('p');
-          author.textContent = book.authors ? book.authors[0] : 'Auteur inconnu';
-          bookDiv.appendChild(author);
+          const idElem = document.createElement('p');
+          idElem.textContent = `ID: ${bookId}`;
+          bookDiv.appendChild(idElem);
 
-          const description = document.createElement('p');
-          description.textContent = book.description ? book.description.substring(0, 200) + '...' : 'Information manquante';
-          bookDiv.appendChild(description);
+          const authorElem = document.createElement('p');
+          authorElem.textContent = `Auteur : ${book.authors ? book.authors[0] : 'Auteur inconnu'}`;
+          bookDiv.appendChild(authorElem);
+
+          const descriptionElem = document.createElement('p');
+          descriptionElem.textContent = `Description : ${book.description ? book.description.substring(0, 200) + '...' : 'Information manquante'}`;
+          bookDiv.appendChild(descriptionElem);
 
           const img = document.createElement('img');
           img.src = book.imageLinks ? book.imageLinks.thumbnail : 'img/unavailable.png';
@@ -120,20 +130,19 @@ function performSearch(title, author) {
           bookmarkIcon.classList.add('fa-regular', 'fa-bookmark');
           bookmarkIcon.style.color = '#74C0FC';
           bookmarkIcon.addEventListener('click', () => {
-            addToPochListe(book);
+            addToPochListe(book, bookId);
           });
           bookDiv.appendChild(bookmarkIcon);
 
           resultsDiv.appendChild(bookDiv);
         });
       }
-
       searchContainer.appendChild(resultsDiv);
     });
 }
 
 // Add the book to the "poch'liste"
-function addToPochListe(book) {
+function addToPochListe(book, bookId) {
   const pochListeDiv = document.getElementById('poch-liste');
   if (!pochListeDiv) {
     const pochListe = document.createElement('div');
@@ -142,24 +151,36 @@ function addToPochListe(book) {
     document.body.appendChild(pochListe);
   }
 
+  // Check if book is already in the list
+  if (document.getElementById(bookId)) {
+    alert('Vous ne pouvez ajouter deux fois le même livre.');
+    return;
+  }
+
   const bookItem = document.createElement('div');
-  bookItem.id = book.id;
+  bookItem.id = bookId;
   bookItem.classList.add('poch-book-item');
 
-  const title = document.createElement('h3');
-  title.textContent = book.title;
-  bookItem.appendChild(title);
+  const titleElem = document.createElement('h3');
+  titleElem.textContent = `Titre : ${book.title || 'Titre non disponible'}`;
+  bookItem.appendChild(titleElem);
+
+
+  const idElem = document.createElement('p');
+  idElem.textContent = `ID: ${bookId}`;
+  bookItem.appendChild(idElem);
 
   const author = document.createElement('p');
-  author.textContent = book.authors ? book.authors[0] : 'Auteur inconnu';
+  author.textContent = `Auteur : ${book.authors ? book.authors[0] : 'Auteur inconnu'}`
   bookItem.appendChild(author);
 
-  const description = document.createElement('p');
-  description.textContent = book.description ? book.description.substring(0, 200) + '...' : 'Information manquante';
-  bookItem.appendChild(description);
+  const descriptionElem = document.createElement('p');
+  descriptionElem.textContent = `Description : ${book.description ? book.description.substring(0, 200) + '...' : 'Information manquante'}`;
+  bookItem.appendChild(descriptionElem);
+
 
   const img = document.createElement('img');
-  img.src = book.imageLinks ? book.imageLinks.thumbnail : 'path/to/unavailable.png';
+  img.src = book.imageLinks ? book.imageLinks.thumbnail : 'img/unavailable.png';
   img.alt = 'Image du livre';
   bookItem.appendChild(img);
 
