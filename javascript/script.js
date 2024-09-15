@@ -1,8 +1,15 @@
 // Function executed when the window is fully loaded
 window.onload = function() {
+  hideTitle();
   initAddBookButton();
   loadBooksFromSession();
 };
+
+//Hide the title (redundant because of the logo)
+function hideTitle(){
+  const pochLibTitle = document.querySelector('.title');
+    pochLibTitle.style.display = 'none'; 
+}
 
 // Initialize the "Add a Book" button
 function initAddBookButton() {
@@ -18,6 +25,7 @@ function initAddBookButton() {
   button.addEventListener('click', () => {
     if (!document.getElementById('search-container')) {
       createSearchForm(myBooksDiv, separator);
+      button.style.display = 'none';
     }
   });
 }
@@ -57,11 +65,31 @@ function createSearchForm(container, separator) {
 
   document.getElementById('cancel-button').addEventListener('click', () => {
     searchContainer.remove();
+    document.getElementById('ajouterLivreBtn').style.display = 'block'
   });
 }
 
 // Search for a book using the Google Books API
 function performSearch(title, author) {
+
+  const searchContainer = document.getElementById('search-container');
+  
+   // Remove the old results title and results if it exists
+   const oldResultsTitle = searchContainer.querySelector('#result-search-title');
+   if (oldResultsTitle) {
+     oldResultsTitle.remove();
+   }
+  
+  const existingResults = searchContainer.querySelector('#search-results');
+  if (existingResults) {
+    existingResults.remove();
+  }
+
+  const existingSeparator = searchContainer.querySelector('#search-separator');
+  if (existingSeparator) {
+    existingSeparator.remove();
+  }
+
   fetch(`https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}`)
     .then(response => response.json())
     .then(data => displaySearchResults(data))
@@ -71,14 +99,34 @@ function performSearch(title, author) {
 // Display search results
 function displaySearchResults(data) {
   const searchContainer = document.getElementById('search-container');
-  const resultsDiv = document.createElement('div');
-  resultsDiv.id = 'search-results';
-  resultsDiv.classList.add('search-results');
+
+  // Create a separator (hr) element 
+  const separator = document.createElement('hr');
+  separator.id = "search-separator";
+  separator.classList.add('search-separator');
+
+  // Create an h2 element for the search results title
+  const resultsTitle = document.createElement('h2');
+  resultsTitle.textContent = "Résultats de recherche";
+  resultsTitle.id = "result-search-title";
+  resultsTitle.classList.add("h2");
+
+   // Create a new results container
+   const resultsDiv = document.createElement('div');
+   resultsDiv.id = 'search-results';
+   resultsDiv.classList.add('search-results');
+
+   // Append to the search container
+  searchContainer.appendChild(separator);
+  searchContainer.appendChild(resultsTitle);
+  searchContainer.appendChild(resultsDiv);
+
 
   if (data.totalItems === 0) {
     resultsDiv.textContent = "Aucun livre n'a été trouvé.";
   } else {
-    data.items.forEach(item => createBookItem(item, resultsDiv));
+    const limitedItems = data.items.slice(0, 9);
+    limitedItems.forEach(item => createBookItem(item, resultsDiv));
   }
 
   searchContainer.appendChild(resultsDiv);
@@ -98,11 +146,18 @@ function createBookItem(item, container) {
     <p>Auteur : ${book.authors ? book.authors[0] : 'Auteur inconnu'}</p>
     <p>Description : ${book.description ? book.description.substring(0, 200) + '...' : 'Information manquante'}</p>
     <img src="${book.imageLinks ? book.imageLinks.thumbnail : 'img/unavailable.png'}" alt="Image du livre">
-    <i class="fa-regular fa-bookmark" style="color: #74C0FC"></i>
+    <i class="fa-regular fa-bookmark bookmark-icon"></i>
   `;
 
-  bookDiv.querySelector('.fa-bookmark').addEventListener('click', () => {
-    addToPochListe(book, bookId);
+  const bookmarkIcon = bookDiv.querySelector('.fa-bookmark');
+
+  // Add event listener to change the bookmark icon when clicked
+  bookmarkIcon.addEventListener('click', () => {
+    if (bookmarkIcon.classList.contains('fa-regular')) {
+      bookmarkIcon.classList.remove('fa-regular');
+      bookmarkIcon.classList.add('fa-solid');
+    } 
+    addToPochListe(book, bookId); 
   });
 
   container.appendChild(bookDiv);
@@ -111,7 +166,7 @@ function createBookItem(item, container) {
 // Add a book to the Poch'List
 function addToPochListe(book, bookId, checkDuplicate = true) {
   if (checkDuplicate && isBookInPochList(bookId)) {
-    alert('Ce livre est déjà dans votre poch\'liste.');
+    alert('Vous ne pouvez ajouter deux fois le même livre');
     return;
   }
 
@@ -140,7 +195,7 @@ function createBookItemDiv(book, bookId) {
     <p>Auteur : ${book.authors ? book.authors[0] : 'Auteur inconnu'}</p>
     <p>Description : ${book.description ? book.description.substring(0, 200) + '...' : 'Information manquante'}</p>
     <img src="${book.imageLinks ? book.imageLinks.thumbnail : 'img/unavailable.png'}" alt="Image du livre">
-    <i class="fa-solid fa-trash" style="color: #FF6B6B"></i>
+    <i class="fa-solid fa-trash" ></i>
   `;
 
   bookItem.querySelector('.fa-trash').addEventListener('click', () => {
@@ -153,10 +208,17 @@ function createBookItemDiv(book, bookId) {
 
 // Create the Poch'List div if it doesn't exist yet
 function createPochListeDiv() {
+   // Get the existing <h2> element for "Ma poch'liste"
+  const pochListeTitle = document.querySelector('#content h2');
+
+  // Create the Poch'List div
   const pochListe = document.createElement('div');
   pochListe.id = 'poch-liste';
   pochListe.classList.add('poch-liste');
-  document.body.appendChild(pochListe);
+
+  // Insert the Poch'List after the existing <h2> element
+  pochListeTitle.insertAdjacentElement('afterend', pochListe);
+
   return pochListe;
 }
 
