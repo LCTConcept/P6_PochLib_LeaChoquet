@@ -18,6 +18,7 @@
 * Remove the books from your list as you buy them (or read a bad review) by clicking on the trash icon
 
 **What does it look like ?**
+
   ![Poch'Lib Demo](./img/demo.gif)
 
 ## ✅ How to get your hands on this app ? 
