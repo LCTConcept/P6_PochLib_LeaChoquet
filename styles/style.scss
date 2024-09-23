@@ -1,136 +1,252 @@
-/* Variables */
-$main-color: #42b1a6;
-$border-color: #e5e5e5;
-$text-color: #333;
+// Variables
+$primary-button-color: #469487;
+$cancel-button-color: #DF5A4B;
+$book-card-background: #E0E0E0;
+$text-color-white: #FFFFFF;
+$main-font : 'Open Sans', sans-serif;
 
-/* Mixins for styles*/ 
-@mixin text-styles {
-  font-family: 'Open Sans', sans-serif;
-  color: $text-color;
-}
-
-@mixin h2-styles {
-  @include text-styles();
-  font-size: 1rem;
-  margin-bottom: 15px;
-}
-
-
-
-/* Design for the general content */
-
-body{
-  @include text-styles();
-}
-
-#myBooks {
-  text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-
-  .title {
-    @include text-styles();
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-
-  .h2 {
-    @include h2-styles();
-  }
-
-  hr {
-    border: none;
-    border-top: 1px solid $border-color;
-    margin: 30px 0;
-  }
-
-  #content {
-    h2 {
-      @include h2-styles();
-    }
-  }
-}
-
-.button {
-  background-color: $main-color; /* Main color for the button */
-  color: white;
+// Mixins
+@mixin button-styles() {
+  background-color: $primary-button-color;
+  color: $text-color-white;
+  border-radius: 5px;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.button:hover {
-  background-color: darken($main-color, 10%); /* Darken color on hover */
-}
-
-/* Styles for the logo image */
-#logo {
-  display: block; 
-  margin: 0 auto; 
-  width: 300px; 
-  height: auto; 
-  max-width: 100%;
-}
-
-/* Styles for the search form */
-#search-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f1f1f1; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%; 
-}
-
-#search-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 400px; 
-}
-
-#book-title,
-#book-author {
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%; 
-}
-
-
-#cancel-button {
-  @extend .button; /* Inherit styles from .button */
-  background-color: red; 
+  text-align: center;
+  font-size: 0.8rem;
+  max-width: 200px; //
+  width: 100%;  // 
+  margin: auto;
 
   &:hover {
-    background-color: darken(red, 10%); 
+    background-color: darken($primary-button-color, 10%);
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin title-style{
+  font-family: $main-font;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+@mixin h2-style{
+  font-family: $main-font;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  margin: 15px 0;
+}
+
+@mixin h3-style{
+  font-family: $main-font;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+  font-size: 0.8rem;
+}
+
+@mixin regular-font-style{
+  font-family: $main-font;
+  font-size: 0.8rem;
+  text-align: justify;
+  margin: 10px 0;
+}
+
+@mixin fa-addons{
+  position: absolute;
+    right: 10px;
+    color: $primary-button-color;
+    font-size: 20px; 
+    cursor: pointer;
+}
+
+// Global Styles
+body {
+  font-family: $main-font;
+  margin: 0;
+  padding: 0;
+}
+
+.divlogo {
+  @include flex-center();
+
+  #logo{
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Container for the application
+#myBooks {
+  padding: 0 30px;
+}
+
+// Titles
+.title {
+ @include title-style();
+}
+
+.h2, h2 {
+  @include h2-style();
+}
+
+// Search Form
+.search-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.form-search {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label-title,
+.label-author {
+  margin-bottom: 8px; 
+  text-align: left; 
+  font-size: 0.8rem;
+}
+
+.input-title,
+.input-author {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.btn-add-book{
+  @include button-styles;
+  @include flex-center();
+  margin-bottom: 20px;
+}
+
+.btn-search{
+  @include button-styles;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.btn-cancel {
+  @include button-styles;
+  display: block;
+  margin-bottom: 8px;
+  background-color: $cancel-button-color;
+}
+
+.search-results, .poch-liste {
+  display: grid;
+  gap: 5px; 
+  grid-template-columns: 1fr;
+}
+
+// Book card styles
+.book-item, .poch-book-item {
+  background-color: $book-card-background;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: 1fr;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  width: calc(100% - 20px);  
+
+
+  h3 {
+    @include h3-style();
+    margin-top: 20px;
+  }
+
+  p {
+    @include regular-font-style();
+  }
+
+  img {
+    width: 50%; 
+    height: auto; 
+    object-fit: cover; 
+    margin-bottom: 10px;
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+
+  .fa-bookmark {
+    @include fa-addons;
+    top: 10px;
+  }
+
+  .fa-trash {
+    @include fa-addons;
+    bottom: 10px;
   }
 }
 
 
-.input-title {
-  display: block;
-  text-align: left;
-  margin-bottom: 5px;
+// Responsive adjustments
+@media (min-width: 768px) {
+
+  .input-title,
+  .input-author {
+    width: 100%;
+  }
+
+  .search-results, .poch-liste{
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn-search, .btn-cancel {
+    max-width: 200px;
+    width: 100%;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  
+  .book-item, .poch-book-item {
+    width: auto;
+  }
 }
 
-/* Make input fields take the full width */
-.input-box {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  box-sizing: border-box; /* Ensure padding is included in the width */
+@media (min-width: 1024px) {
+ 
+  .form-search {
+    width: 100%;
+    margin: 20px auto;
+  }
+
+  .btn-search, .btn-cancel {
+    max-width: 200px;
+    width: 100%;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .search-results, .poch-liste{
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+
+  .book-item, .poch-book-item {
+    width: auto;
+  }
 }
-
-
-
-

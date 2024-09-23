@@ -1,113 +1,224 @@
-/* Variables */
-/* Mixins for styles*/
-/* Design for the general content */
 body {
   font-family: "Open Sans", sans-serif;
-  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.divlogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.divlogo #logo {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 #myBooks {
-  text-align: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-}
-#myBooks .title {
-  font-family: "Open Sans", sans-serif;
-  color: #333;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-#myBooks .h2 {
-  font-family: "Open Sans", sans-serif;
-  color: #333;
-  font-size: 1rem;
-  margin-bottom: 15px;
-}
-#myBooks hr {
-  border: none;
-  border-top: 1px solid #e5e5e5;
-  margin: 30px 0;
-}
-#myBooks #content h2 {
-  font-family: "Open Sans", sans-serif;
-  color: #333;
-  font-size: 1rem;
-  margin-bottom: 15px;
+  padding: 0 30px;
 }
 
-.button, #cancel-button {
-  background-color: #42b1a6; /* Main color for the button */
-  color: white;
+.title {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.h2, h2 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.search-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.form-search {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label-title,
+.label-author {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.input-title,
+.input-author {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.btn-add-book {
+  background-color: #469487;
+  color: #FFFFFF;
+  border-radius: 5px;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-}
-
-.button:hover, #cancel-button:hover {
-  background-color: #348c83; /* Darken color on hover */
-}
-
-/* Styles for the logo image */
-#logo {
-  display: block;
-  margin: 0 auto;
-  width: 300px;
-  height: auto;
-  max-width: 100%;
-}
-
-/* Styles for the search form */
-#search-container {
+  text-align: center;
+  font-size: 0.8rem;
+  max-width: 200px;
+  width: 100%;
+  margin: auto;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 20px;
-  background-color: #f1f1f1;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  margin-bottom: 20px;
+}
+.btn-add-book:hover {
+  background-color: #367167;
 }
 
-#search-form {
+.btn-search {
+  background-color: #469487;
+  color: #FFFFFF;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.8rem;
+  max-width: 200px;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 10px;
+  display: block;
+}
+.btn-search:hover {
+  background-color: #367167;
+}
+
+.btn-cancel {
+  background-color: #469487;
+  color: #FFFFFF;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.8rem;
+  max-width: 200px;
+  width: 100%;
+  margin: auto;
+  display: block;
+  margin-bottom: 8px;
+  background-color: #DF5A4B;
+}
+.btn-cancel:hover {
+  background-color: #367167;
+}
+
+.search-results, .poch-liste {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 1fr;
+}
+
+.book-item, .poch-book-item {
+  background-color: #E0E0E0;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px;
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 400px;
+  grid-template-columns: 1fr;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: calc(100% - 20px);
 }
-
-#book-title,
-#book-author {
-  margin-bottom: 15px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
+.book-item h3, .poch-book-item h3 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+  font-size: 0.8rem;
+  margin-top: 20px;
 }
-
-#cancel-button {
-  /* Inherit styles from .button */
-  background-color: red;
+.book-item p, .poch-book-item p {
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.8rem;
+  text-align: justify;
+  margin: 10px 0;
 }
-#cancel-button:hover {
-  background-color: #cc0000;
-}
-
-.input-title {
-  display: block;
-  text-align: left;
-  margin-bottom: 5px;
-}
-
-/* Make input fields take the full width */
-.input-box {
-  width: 100%;
-  padding: 8px;
+.book-item img, .poch-book-item img {
+  width: 50%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
   margin-bottom: 10px;
-  box-sizing: border-box; /* Ensure padding is included in the width */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.book-item .fa-bookmark, .poch-book-item .fa-bookmark {
+  position: absolute;
+  right: 10px;
+  color: #469487;
+  font-size: 20px;
+  cursor: pointer;
+  top: 10px;
+}
+.book-item .fa-trash, .poch-book-item .fa-trash {
+  position: absolute;
+  right: 10px;
+  color: #469487;
+  font-size: 20px;
+  cursor: pointer;
+  bottom: 10px;
+}
+
+@media (min-width: 768px) {
+  .input-title,
+  .input-author {
+    width: 100%;
+  }
+  .search-results, .poch-liste {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .btn-search, .btn-cancel {
+    max-width: 200px;
+    width: 100%;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  .book-item, .poch-book-item {
+    width: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .form-search {
+    width: 100%;
+    margin: 20px auto;
+  }
+  .btn-search, .btn-cancel {
+    max-width: 200px;
+    width: 100%;
+    padding: 10px 20px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  .search-results, .poch-liste {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .book-item, .poch-book-item {
+    width: auto;
+  }
 }/*# sourceMappingURL=style.css.map */
